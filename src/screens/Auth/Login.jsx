@@ -15,7 +15,7 @@ const Login = () => {
       uname: "invalid username",
       pass: "invalid password"
     };
-    
+
     const renderForm = (
         <div className="form">
           <form onSubmit={handleSubmit}>
@@ -37,6 +37,18 @@ const Login = () => {
      );
 
     const handleSubmit  = (event) => {
+
+      if (userData) {
+        if (userData.password !== pass.value) {
+          // Invalid password
+          setErrorMessages({ name: "pass", message: errors.pass });
+        } else {
+          setIsSubmitted(true);
+        }
+      } else {
+        // Username not found
+        setErrorMessages({ name: "uname", message: errors.uname });
+      }
         event.preventDefault();
     }
     return <div>
