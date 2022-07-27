@@ -19,9 +19,6 @@ const Products = ({}) => {
       q = query(collection(firestore, "products"));
     }
     getDocs(q).then(querySnapshot => {
-      console.log('====================================');
-      console.log(querySnapshot.docs);
-      console.log('====================================');
       setLoading(false);
       querySnapshot.docs.map((item)=> {
         let product = item.data();

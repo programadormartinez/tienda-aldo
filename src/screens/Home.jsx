@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
@@ -21,9 +22,7 @@ import Products from "../components/Products";
 import { CartContext } from "../context/CartContext";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Link } from "react-router-dom";
-import CategoryContextProvider, {
-  CategoryContext,
-} from "../context/CategoryContext";
+import CategoryContextProvider from "../context/CategoryContext";
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
@@ -55,10 +54,7 @@ const Home = (props) => {
     setOpen(newOpen);
   };
 
-  
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
+  const container = window !== undefined ? () => window().document.body : undefined;
   const cart = useContext(CartContext);
   return (
     <Root>
@@ -106,16 +102,20 @@ const Home = (props) => {
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: "text.secondary" }}>
+          {open ? (
+            <Box sx={{ textAlign: "center", pt: 1 }}>
+              <Button onClick={toggleDrawer(false)} color="secondary" >Cerrar</Button>
+            </Box>
+          ) : (
+            <></>
+          )}
+          <Typography sx={{ pl:2, color: "text.secondary" }}>
             {cart.cartList.length} Productos
           </Typography>
         </StyledBox>
         <StyledBox
           sx={{
-            px: 2,
-            pb: 2,
             height: "100%",
-            overflow: "auto",
           }}
         >
           <Stack direction="row" spacing={2}>
@@ -124,7 +124,7 @@ const Home = (props) => {
                 return (
                   <Card
                     sx={{ width: 150 }}
-                    style={{ margin: 20 }}
+                    style={{ margin: 15 }}
                     key={item.id}
                   >
                     <CardMedia
@@ -137,6 +137,12 @@ const Home = (props) => {
                       <Typography variant="small" color="palette.warning.light">
                         {item.title}
                       </Typography>
+                      <br />
+                      <Typography variant="small" color="palette.warning.light">
+                        Cantidad : {item.qty}
+                      </Typography>
+                      <br />
+                      <Button onClick={()=> cart.deletedProduct(item.id)}> Eliminar</Button>
                     </CardContent>
                   </Card>
                 );
@@ -144,13 +150,12 @@ const Home = (props) => {
             ) : (
               <></>
             )}
-
             <Link
               to={"/cart"}
               style={{
                 textDecoration: "none",
                 backgroundColor: "#9c27b0",
-                margin: "auto",
+                margin: "120px",
                 border: "1px solid #9c27b0",
                 borderRadius: 20,
               }}

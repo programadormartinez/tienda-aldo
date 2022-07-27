@@ -14,9 +14,10 @@ const CartContextProvider = ({children}) => {
             setCartList([...cartList, {qty, ...item, costProduct}]);
             window.localStorage.setItem('cartList',JSON.stringify([...cartList]));
         }else{
-            filtredData[0].qty = filtredData[0].qty + qty;
-            costProduct = item.price * filtredData[0].qty;
-            setCartList(filtredData);
+            let index = cartList.indexOf(filtredData[0]);
+            cartList[index].qty = cartList[index].qty + qty;
+            costProduct = item.price * cartList[index].qty;
+            setCartList(cartList);
             window.localStorage.setItem('cartList',JSON.stringify(filtredData));
         }
         setCostTotal(costTotal + costProduct);
