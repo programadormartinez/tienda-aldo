@@ -1,0 +1,13 @@
+.MuiCardHeader-title{
+    font-size: 15px !important;
+}
+
+.MuiCardMedia-img{
+    width: 90% !important;
+    margin: auto !important;
+}
+
+a{
+    text-decoration: none !important;
+    color: black !important;
+}

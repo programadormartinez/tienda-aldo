@@ -1,56 +1,59 @@
-import { Container } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
+import { useAuth } from "../../context/AuthController";
 import "./Login.css";
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [user, setUser] = useState({
+      email: '',
+      password: '',
+    });
+    const { error, login } = useAuth();
     const [errorMessages, setErrorMessages] = useState({});
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const renderErrorMessage = (name) =>
     name === errorMessages.name && (
         <div className="error">{errorMessages.message}</div>
     );
     const errors = {
-      uname: "invalid username",
-      pass: "invalid password"
+      email: "invalid username",
+      password: "invalid password"
     };
+    const handleSubmit  = (event) => {
+      login(user.email, user.password);
+      event.preventDefault();
+    }
 
+    const handleChange = ({ target: { name, value } }) => {
+      setUser({ ...user, [name]: value });
+    };
     const renderForm = (
         <div className="form">
+          <h1>ENTRAR A MI CUENTA</h1>
           <form onSubmit={handleSubmit}>
             <div className="input-container">
-              <label>Username </label>
-              <input type="text" name="uname" required />
+              <label>Email </label>
+              <input type="text" name="email" placeholder="youremail@company.com" required  onChange={handleChange}/>
               {renderErrorMessage("uname")}
             </div>
             <div className="input-container">
               <label>Password </label>
-              <input type="password" name="pass" required />
+              <input type="password" name="password" placeholder="**************" required  onChange={handleChange}/>
               {renderErrorMessage("pass")}
             </div>
             <div className="button-container">
               <input type="submit" />
             </div>
           </form>
+
+          <Button>
+                <Link to={'/register'}>
+                Registrarse</Link>
+          </Button>
         </div>
      );
 
-    const handleSubmit  = (event) => {
-
-      if (userData) {
-        if (userData.password !== pass.value) {
-          // Invalid password
-          setErrorMessages({ name: "pass", message: errors.pass });
-        } else {
-          setIsSubmitted(true);
-        }
-      } else {
-        // Username not found
-        setErrorMessages({ name: "uname", message: errors.uname });
-      }
-        event.preventDefault();
-    }
+   
     return <div>
         <Navbar></Navbar>
         <Container maxWidth="">

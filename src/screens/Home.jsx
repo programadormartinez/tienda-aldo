@@ -1,19 +1,29 @@
-import { Container } from "@mui/material";
-import React from "react";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Container,
+  IconButton,
+  Stack,
+} from "@mui/material";
+import React, { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { Global } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { grey } from "@mui/material/colors";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import Navbar from "../components/Navbar";
 import CategoriesComponent from "../components/CategoriesComponent";
 import Products from "../components/Products";
-
+import { CartContext } from "../context/CartContext";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import { Link } from "react-router-dom";
+import CategoryContextProvider, {
+  CategoryContext,
+} from "../context/CategoryContext";
 const drawerBleeding = 56;
 
 const Root = styled("div")(({ theme }) => ({
@@ -40,37 +50,37 @@ const Puller = styled(Box)(({ theme }) => ({
 
 const Home = (props) => {
   const { window } = props;
-  const [open, setOpen] = React.useState(false);
-
+  const [open, setOpen] = useState(false);
   const toggleDrawer = (newOpen) => () => {
-    console.log('====================================');
-    console.log(newOpen);
-    console.log('====================================');
     setOpen(newOpen);
   };
 
-  // This is used only for the example
+  
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  const cart = useContext(CartContext);
   return (
     <Root>
+      <Navbar toggleDrawer={toggleDrawer(true)} cartDirect={false}></Navbar>
       <CssBaseline />
       <Global
         styles={{
           ".MuiDrawer-root > .MuiPaper-root": {
-            height: `calc(50% - ${drawerBleeding}px)`,
+            height: `calc(35% - ${drawerBleeding}px)`,
             overflow: "visible",
           },
         }}
       />
-
-      <Navbar toggleDrawer={toggleDrawer(true)}></Navbar>
-      <Container style={{
-        marginTop: 0
-      }}>
-        <CategoriesComponent></CategoriesComponent>
-        <Products></Products>
+      <Container
+        style={{
+          marginTop: 0,
+        }}
+      >
+        <CategoryContextProvider>
+          <CategoriesComponent></CategoriesComponent>
+          <Products></Products>
+        </CategoryContextProvider>
       </Container>
       <SwipeableDrawer
         container={container}
@@ -97,7 +107,7 @@ const Home = (props) => {
         >
           <Puller />
           <Typography sx={{ p: 2, color: "text.secondary" }}>
-            0 Productos
+            {cart.cartList.length} Productos
           </Typography>
         </StyledBox>
         <StyledBox
@@ -108,7 +118,51 @@ const Home = (props) => {
             overflow: "auto",
           }}
         >
-          <Skeleton variant="rectangular" height="100%" />
+          <Stack direction="row" spacing={2}>
+            {cart.cartList.length ? (
+              cart.cartList.map((item) => {
+                return (
+                  <Card
+                    sx={{ width: 150 }}
+                    style={{ margin: 20 }}
+                    key={item.id}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="80"
+                      image={item.image}
+                      alt="Paella dish"
+                    />
+                    <CardContent>
+                      <Typography variant="small" color="palette.warning.light">
+                        {item.title}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                );
+              })
+            ) : (
+              <></>
+            )}
+
+            <Link
+              to={"/cart"}
+              style={{
+                textDecoration: "none",
+                backgroundColor: "#9c27b0",
+                margin: "auto",
+                border: "1px solid #9c27b0",
+                borderRadius: 20,
+              }}
+            >
+              <IconButton
+                aria-label="add to shopping cart"
+                style={{ color: "white" }}
+              >
+                <ShoppingCartCheckoutIcon />
+              </IconButton>
+            </Link>
+          </Stack>
         </StyledBox>
       </SwipeableDrawer>
     </Root>

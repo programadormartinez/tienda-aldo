@@ -2,8 +2,10 @@
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+import { getAuth } from 'firebase/auth';
 // Your web app's Firebase configuration
+
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyAkbXUwkIG4TBSnJW2xkHNKwtbN-cc6EWw",
   authDomain: "tienda-aldo.firebaseapp.com",
@@ -15,3 +17,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const firestore = getFirestore(app);

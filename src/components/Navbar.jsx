@@ -1,55 +1,86 @@
+import { AppBar, Badge, Toolbar, Typography, Link, Button } from "@mui/material";
+import React, { useContext, useState } from "react";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import { useAuth } from "../context/AuthController";
+import { CartContext } from "../context/CartContext";
+import { Link as LinkRouter } from "react-router-dom";
 
-import { AppBar, Icon, IconButton, Link, Toolbar, Typography } from '@mui/material'
-import React from 'react'
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
-
-const Navbar = ({toggleDrawer}) => {
+const Navbar = ({ toggleDrawer, cartDirect }) => {
+  const cart = useContext(CartContext);
+  const { user } = useAuth();
   return (
-    <AppBar
-        color="default"
-        elevation={0}
-        position="static"
-      >
-        <Toolbar sx={{ flexWrap: 'wrap' }}>
-          <Typography variant="p" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            Tienda Aldo
-          </Typography>
-          <nav>
-            <Link
+    <AppBar color="default" elevation={0} position="static">
+      <Toolbar sx={{ flexWrap: "wrap" }}>
+        <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
+          <LinkRouter to={"/"}>
+            <Button
               variant="button"
               color="text.primary"
-              href="#"
               sx={{ my: 1, mx: 1.5 }}
+              style={{ textDecoration: "none" }}
             >
-              Categorias
-              
-            </Link>
-            |
-            {/* <Link>
-            <h1>PAGIINA A ORIENTARME: https://www.chileamano.com/</h1>
-            </Link> */}
-            <Link
+              Tienda Aldo
+            </Button>
+          </LinkRouter>
+        </Typography>
+        <nav>
+          {!user ? (
+            <Button
               variant="button"
               color="text.secondary"
-              href="/login"
+              href={"/login"}
               sx={{ my: 1, mx: 1.5 }}
+              style={{ textDecoration: "none" }}
             >
               Iniciar sesión
-            </Link>
-            |
+            </Button>
+          ) : (
+            <LinkRouter to={"/account"}>
+              <Button
+                variant="button"
+                color="text.secondary"
+                sx={{ my: 1, mx: 1.5 }}
+                style={{ textDecoration: "none" }}
+              >
+                Mi cuenta
+              </Button>
+            </LinkRouter>
+          )}
+          |
+          {cart.cartList.length && !cartDirect ? (
             <Link
               variant="button"
               color="text.primary"
               href="#"
               sx={{ my: 30, mx: 2.5 }}
-              onClick={()=> toggleDrawer(true)}
+              onClick={() => toggleDrawer(true)}
             >
-                <Icon><LocalGroceryStoreIcon /></Icon>
+              <Badge badgeContent={cart.cartList.length} color="secondary">
+                <LocalGroceryStoreIcon />
+              </Badge>
             </Link>
-          </nav>
-        </Toolbar>
-      </AppBar>
-  )
-}
+          ) : (
+            <></>
+          )}
+          {cartDirect ? (
+            <LinkRouter to={"/cart"}>
+              <Link
+                variant="button"
+                color="text.primary"
+                sx={{ my: 30, mx: 2.5 }}
+              >
+                <Badge badgeContent={cart.cartList.length} color="secondary">
+                  <LocalGroceryStoreIcon />
+                </Badge>
+              </Link>
+            </LinkRouter>
+          ) : (
+            <></>
+          )}
+        </nav>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
-export default Navbar
+export default Navbar;

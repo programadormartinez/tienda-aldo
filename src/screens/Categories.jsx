@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Navbar from '../components/Navbar'
 
 const Categories = () => {
+  const [open, setOpen] = useState(false);
   return (
-    <div>Categories</div>
+    <div>
+      <Navbar cartDirect={true}></Navbar>
+    </div>
   )
 }
 
