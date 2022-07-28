@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Navbar from '../components/Navbar';
 import { ButtonContainer, ContentCart, Details, ImageCart, PriceDetail, Product, ProductAmount, ProductAmountContainer, ProductDetail, ProductPrice, ProductTotals, TitleCart, WrapperCart } from '../components/styledComponents';
 import { CartContext } from '../context/CartContext';
@@ -6,7 +6,9 @@ import { CartContext } from '../context/CartContext';
 const Cart = () => {
   const test = useContext(CartContext);
 //   test.setCartList(JSON.parse(window.localStorage.getItem('cartList')))
-
+   useEffect(()=> {
+    test.calculateCostTotal();
+   }, [])
   return (
       <WrapperCart>
         <Navbar cartDirect={true}></Navbar>

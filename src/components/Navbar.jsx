@@ -47,7 +47,7 @@ const Navbar = ({ toggleDrawer, cartDirect }) => {
             </LinkRouter>
           )}
           |
-          {cart.cartList.length && !cartDirect ? (
+          {cart.cartList && cart.cartList?.length && !cartDirect ? (
             <Link
               variant="button"
               color="text.primary"

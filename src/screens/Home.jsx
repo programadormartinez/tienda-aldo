@@ -142,7 +142,7 @@ const Home = (props) => {
                         Cantidad : {item.qty}
                       </Typography>
                       <br />
-                      <Button onClick={()=> cart.deletedProduct(item.id)}> Eliminar</Button>
+                      <Button onClick={()=> cart.deletedProduct(item.id)} color="warning"> Eliminar</Button>
                     </CardContent>
                   </Card>
                 );
