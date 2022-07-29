@@ -59,7 +59,7 @@ const AuthContextProvider = ({children}) => {
         navigate('/login');
     }
   
-    return <AuthContext.Provider value={{ error, signup, login, user }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{ error, signup, login, user, logout }}>{children}</AuthContext.Provider>;
 }
 
 export default AuthContextProvider
