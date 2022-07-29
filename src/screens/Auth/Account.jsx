@@ -21,7 +21,6 @@ const Account = () => {
              <p>Ultimo inicio de sesión: {user.metadata.lastSignInTime}</p>
              <Button onClick={() => closeSession()}>Cerrar Sesión</Button>
           </ContainerUser>
-          
         </Container>
     </div>
   )

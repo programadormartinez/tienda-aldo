@@ -3,6 +3,7 @@ import { useState, createContext, useContext, useEffect } from 'react';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../configurations/firebaseConfig';
+import { AlertContext } from './AlertContext';
 
 export const AuthContext = createContext();
 
@@ -18,6 +19,8 @@ const AuthContextProvider = ({children}) => {
         loginError: ''
     });
 
+    const alertContext = useContext(AlertContext);
+
     const navigate = useNavigate();
 
     const signup = (email, password) => {
@@ -29,9 +32,16 @@ const AuthContextProvider = ({children}) => {
                 navigate('/');
             })
             .catch((error) => {
+                console.log('====================================');
+                console.log(error.code);
+                console.log('====================================');
                 if (error.code === 'auth/weak-password') {
                     setError({...error, signupError: 'La contraseña es muy corta.'})
+                    alertContext.handleClick('La contraseña es muy corta.', 'error')
+                }else if(error.code === 'auth/email-already-in-use'){
+                    alertContext.handleClick('Ya hay una cuenta registrada con este email.', 'error')
                 } else {
+                    alertContext.handleClick(error.message, 'error')
                     setError({...error, signupError: error.message})
                 }
             })
@@ -45,7 +55,11 @@ const AuthContextProvider = ({children}) => {
               window.localStorage.setItem('accessToken', user.stsTokenManager.accessToken);
               navigate('/');
             })
-            .catch((error) => setError({...error, loginError: error.message}))
+            .catch((error) => {
+                if (error.message == 'Firebase: Error (auth/wrong-password).') {
+                    alertContext.handleClick('Usuario incorrecto', 'error')
+                }
+            })
     }
 
     useEffect(() => {
