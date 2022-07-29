@@ -182,6 +182,7 @@ const ContentCart = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 50px;
 `;
 
 const Product = styled.div`

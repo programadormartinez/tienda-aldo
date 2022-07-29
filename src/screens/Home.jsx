@@ -23,7 +23,7 @@ import { CartContext } from "../context/CartContext";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Link } from "react-router-dom";
 import CategoryContextProvider from "../context/CategoryContext";
-const drawerBleeding = 56;
+const drawerBleeding = 10;
 
 const Root = styled("div")(({ theme }) => ({
   height: "100%",
@@ -39,11 +39,11 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const Puller = styled(Box)(({ theme }) => ({
   width: 30,
-  height: 6,
+  height: 4,
   backgroundColor: theme.palette.mode === "light" ? grey[300] : grey[900],
   borderRadius: 3,
   position: "absolute",
-  top: 8,
+  top: 4,
   left: "calc(50% - 15px)",
 }));
 
@@ -123,7 +123,7 @@ const Home = (props) => {
               cart.cartList.map((item) => {
                 return (
                   <Card
-                    sx={{ width: 150 }}
+                    sx={{ width:220 }}
                     style={{ margin: 15 }}
                     key={item.id}
                   >

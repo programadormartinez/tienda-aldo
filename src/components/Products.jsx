@@ -53,7 +53,7 @@ const Products = ({}) => {
                   <Product product={item} key={item.id}></Product>
               )
               
-                }) : <> No hay productos</>
+                }) : <> ...Cargando</>
              : <Loading></Loading>
           }
         </Grid>
