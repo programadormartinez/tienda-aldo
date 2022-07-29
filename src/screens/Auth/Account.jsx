@@ -8,8 +8,8 @@ const Account = () => {
   const auth = useContext(AuthContext);
   const user = auth.user;
   const closeSession = () => {
-    window.localStorage.clear();
     auth.logout();
+    window.localStorage.clear();
   }
   return (
     <div>
